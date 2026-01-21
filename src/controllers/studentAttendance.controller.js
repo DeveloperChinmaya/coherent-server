@@ -19,10 +19,7 @@ export const mark_attendance = async (req, res) => {
     }
 
     // Send immediate response to user
-    res.json({ 
-      success: true, 
-      message: "Attendance request received" 
-    });
+   
 
     // Asynchronous processing - pass user ID
     processAttendanceAsync(ssn_id, user.id || user._id);
@@ -49,6 +46,11 @@ const processAttendanceAsync = async (ssn_id, userId) => {
       console.log(`❌ Session not found: ${ssn_id} for user ${user.name}`);
       return;
     }
+
+     res.json({ 
+      success: true, 
+      message: "Attendance request received" 
+    });
 
     // 3. Quick cooldown check
     const recent = await AttendanceMark.findOne({
