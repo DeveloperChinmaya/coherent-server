@@ -17,6 +17,8 @@ import setupWS from "./ws.js"
 const server = http.createServer(app);
 setupWS(server);
 
+server.keepAliveTimeout = 65000;   // MUST be > ping interval
+server.headersTimeout = 66000; 
 
 
 // Graceful shutdown function

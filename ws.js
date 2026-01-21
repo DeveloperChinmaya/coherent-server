@@ -30,6 +30,9 @@ function setupWebSocketServer(server) {
 
   wss.on("connection", async (ws, req) => {
     try {
+
+      ws.setKeepAlive(true, 30000)
+      ws.setNoDelay(true)
       // Extract token from URL query params or headers
       const url = new URL(req.url, `https://${req.headers.host}`);
      
