@@ -16,5 +16,9 @@ app.use("/sessions", sessionRouter);
 // Attendance marking routes (requires auth)
 app.use("/student", studentRouter);
 
+app.get("/health", (req,res)=>{
+    res.status(200).send("OK");
+});
+
 
 export default app;
