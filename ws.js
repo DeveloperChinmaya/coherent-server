@@ -1,4 +1,4 @@
-import {WebSocketServer} from "ws";
+import WebSocket,{ WebSocketServer} from "ws";
 import jwt from "jsonwebtoken";
 import Session from "./src/models/Session.model.js"
 import AttendanceMark from "./src/models/AttendanceMark.model.js"
@@ -31,8 +31,8 @@ function setupWebSocketServer(server) {
   wss.on("connection", async (ws, req) => {
     try {
 
-      ws.setKeepAlive(true, 30000)
-      ws.setNoDelay(true)
+      ws._socket.setKeepAlive(true, 30000)
+    ws._socket.setNoDelay(true)
       // Extract token from URL query params or headers
       const url = new URL(req.url, `https://${req.headers.host}`);
      
