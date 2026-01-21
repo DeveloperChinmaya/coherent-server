@@ -10,13 +10,28 @@ export const mark_attendance = async (req, res) => {
     const { ssn_id } = req.body;
     const user = req.user; // This contains user ID from JWT
 
-    // Quick validation
-    if (!ssn_id) {
+
+     const session = await Session.findOne({ ssn_id }).lean();
+    if (!session) {
+      console.log(`❌ Session not found: ${ssn_id} for user ${user.name}`);
       return res.status(400).json({ 
         success: false, 
         message: "ssn_id is required" 
       });
     }
+
+     res.json({ 
+      success: true, 
+      message: "Attendance request received" 
+    });
+
+    // Quick validation
+    // if (!ssn_id) {
+    //   return res.status(400).json({ 
+    //     success: false, 
+    //     message: "ssn_id is required" 
+    //   });
+    // }
 
     // Send immediate response to user
    
@@ -41,16 +56,9 @@ const processAttendanceAsync = async (ssn_id, userId) => {
     }
 
     // 2. Quick session validation
-    const session = await Session.findOne({ ssn_id });
-    if (!session) {
-      console.log(`❌ Session not found: ${ssn_id} for user ${user.name}`);
-      return;
-    }
+   
 
-     res.json({ 
-      success: true, 
-      message: "Attendance request received" 
-    });
+    
 
     // 3. Quick cooldown check
     const recent = await AttendanceMark.findOne({
